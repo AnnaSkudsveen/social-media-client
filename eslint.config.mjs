@@ -1,26 +1,31 @@
 import globals from "globals";
 import pluginJs from "@eslint/js";
 
-export default [
-  {
-    languageOptions: {
-      globals: {
-        ...globals.browser,
-        ...globals.jest
-      }
+const jestConfig = {
+  languageOptions: {
+    globals: {
+      ...globals.browser,
+      ...globals.jest // Add Jest globals
     }
   },
-  pluginJs.configs.recommended,
+  plugins: ["jest"], // Enable Jest plugin
+  extends: ["plugin:jest/recommended"] // Use recommended Jest rules
+};
+
+export default [
+  // General configuration
   {
-    overrides: [
-      {
-        files: ["*.test.js", "*.spec.js"],
-        env: {
-          jest: true
-        },
-        plugins: ["jest"],
-        extends: ["plugin:jest/recommended"]
-      }
-    ]
-  }
+    languageOptions: {
+      globals: globals.browser
+    }
+  },
+
+  // Jest configuration for test files
+  {
+    files: ["*.test.js", "*.spec.js"], // Adjust the pattern if necessary
+    ...jestConfig
+  },
+
+  // Recommended JavaScript rules
+  pluginJs.configs.recommended
 ];
