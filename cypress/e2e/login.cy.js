@@ -1,29 +1,36 @@
 import { cy } from "cypress";
 
-// describe("template spec", () => {
-//   it("passes", () => {
-//     cy.visit("https://example.cypress.io");
-//   });
-// });
-
 describe("Login Form", () => {
   it("should allow user to log in with valid credentials", () => {
-    // Visit the login page
     cy.visit("/index.html");
 
     cy.get('button[data-auth="login"]').first().click();
 
-    // Enter valid username and password
     cy.get("#loginEmail").click().type("testeranna@stud.noroff.no");
 
     cy.get("#loginPassword").click().type("valid_password");
 
-    // Submit the login form
     cy.get('#loginForm button[type="submit"]')
       .should("have.text", "Login")
       .click();
 
-    // Assert that the user is logged in
-    cy.url().should("include", "view=profile"); // Assuming your dashboard URL
+    cy.url().should("include", "view=profile");
+  });
+});
+
+describe("Login Form Invalid", () => {
+  it("should show an error message for invalid credentials", () => {
+    cy.visit("/index.html");
+
+    cy.get('button[data-auth="login"]').first().click();
+
+    cy.get("#loginEmail").type("invalid_username");
+    cy.get("#loginPassword").type("invalid_password");
+
+    cy.get('#loginForm button[type="submit"]')
+      .should("have.text", "Login")
+      .click();
+
+    cy.url().should("include", "view=profile");
   });
 });
