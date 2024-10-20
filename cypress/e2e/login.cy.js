@@ -1,3 +1,4 @@
+//Remove import before testing to make cypress work
 import { cy } from "cypress";
 
 describe("Login Form", () => {
