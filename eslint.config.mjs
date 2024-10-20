@@ -1,7 +1,7 @@
-// // eslint.config.mjs
 import { defineConfig } from "eslint-define-config";
 import globals from "globals";
 import pluginJs from "@eslint/js";
+import cypress from "cypress";
 
 export default defineConfig([
   {
@@ -19,10 +19,25 @@ export default defineConfig([
     files: ["*.test.js", "*.spec.js"],
     languageOptions: {
       globals: {
-        ...globals.jest,
+        ...globals.jest, // For Jest tests
         global: "readonly"
       }
     },
     plugins: pluginJs
+  },
+  {
+    files: ["cypress/**/*.js", "cypress.config.js"],
+    languageOptions: {
+      globals: {
+        ...globals.node,
+        ...globals.browser,
+        ...globals["cypress"]
+      }
+    },
+    plugins: {
+      eslint: pluginJs,
+      cypress: cypress
+    },
+    rules: {}
   }
 ]);
