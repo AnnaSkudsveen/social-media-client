@@ -20,7 +20,7 @@ describe("Login Form", () => {
 });
 
 describe("Login Form Invalid", () => {
-  it("should show an error message for invalid credentials", () => {
+  it("should fail to login user with unvalid credentials", () => {
     cy.visit("/index.html");
 
     cy.get('button[data-auth="login"]').first().click();
